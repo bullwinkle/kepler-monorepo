@@ -9,19 +9,24 @@ import { slideAnimation } from "../../constants";
 import { ActivatedRoute, Router } from "@angular/router";
 import { index2number, number2Index } from "../../utils";
 import { QuizWizardStateFacade } from "../../services/quiz-wizard-state.service";
+import { QuizSseService } from "../../services/quiz-sse.service";
 
 @Component({
   selector: "kepler-monorepo-quiz-wizard",
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, QuizStepComponent, QuizQuestionComponent],
+  providers: [QuizSseService],
+  styleUrls: ["./quiz-wizard.component.scss"],
+  animations: [slideAnimation],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <form class="multi-step-wizard" [formGroup]="stateFacade.quizFormRecord" *ngIf="{
       currentStep: stateFacade.currentStep$ | async, 
       quiz: stateFacade.quiz$ | async, 
       loaded: stateFacade.loaded$ | async
     } as ctx">
-      <!-- <div class="wizard-steps">-->
       <div formArrayName="steps" [@slideAnimation]="ctx.currentStep" class="wizard-steps">
+<!--      <div formArrayName="steps" class="wizard-steps">-->
         <div *ngIf="!ctx.loaded">Loading...</div>
         <!--        <ng-container *ngFor="let step of ctx.steps; let i = index" [formGroupName]="">-->
         <ng-container *ngFor="let step of ctx.quiz?.steps; let stepIndex = index" [formGroupName]="stepIndex">
@@ -64,26 +69,9 @@ import { QuizWizardStateFacade } from "../../services/quiz-wizard-state.service"
         </button>
       </div>
     </form>
-
-    <h3>Value</h3>
+    
     <pre>{{ stateFacade.quizFormRecord.value | json }}</pre>
-    <h3>Valid</h3>
-    <pre>{{ stateFacade.quizFormRecord.valid | json }}</pre>
-    <h3>Dirty</h3>
-    <pre>{{ stateFacade.quizFormRecord.dirty | json }}</pre>
-    <h3>Touched</h3>
-    <pre>{{ stateFacade.quizFormRecord.touched | json }}</pre>
-
-    <h4>GetRawValue</h4>
-    <pre>{{ stateFacade.quizFormRecord.getRawValue() | json }}</pre>
-    <h4>Errors</h4>
-    <pre>{{ stateFacade.quizFormRecord.errors | json }}</pre>
-    <h4>ValueChanges</h4>
-    <pre>{{ stateFacade.quizFormRecord.valueChanges | async | json }}</pre>
   `,
-  styleUrls: ["./quiz-wizard.component.scss"],
-  animations: [slideAnimation],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuizWizardComponent implements OnInit {
   get currentStep() {
@@ -94,7 +82,8 @@ export class QuizWizardComponent implements OnInit {
     private quizService: QuizApiService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public stateFacade: QuizWizardStateFacade
+    public stateFacade: QuizWizardStateFacade,
+    // private quizSseService: QuizSseService
   ) {
   }
 
@@ -125,7 +114,7 @@ export class QuizWizardComponent implements OnInit {
 
   onSubmit() {
     const formResult = {
-      id: this.stateFacade.state.quiz?.id,
+      _id: this.stateFacade.state.quiz?._id,
       steps: this.stateFacade.stepsFormArray.value
     };
     this.quizService.saveQuiz(formResult).pipe(

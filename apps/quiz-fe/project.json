@@ -6,7 +6,7 @@
   "prefix": "kepler-monorepo",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@nrwl/angular:webpack-browser",
       "outputs": [
         "{options.outputPath}"
       ],
@@ -26,6 +26,9 @@
         "styles": [
           "apps/quiz-fe/src/styles.scss"
         ],
+        "customWebpackConfig": {
+          "path": "apps/quiz-fe/webpack.config.ts"
+        },
         "scripts": []
       },
       "configurations": {
@@ -56,7 +59,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@nrwl/angular:webpack-dev-server",
       "configurations": {
         "production": {
           "browserTarget": "quiz-fe:build:production"

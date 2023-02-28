@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, distinctUntilChanged, map, Observable, of, shareReplay, tap } from "rxjs";
+import { BehaviorSubject, catchError, distinctUntilChanged, map, Observable, of, shareReplay, tap } from "rxjs";
 import { FormArray, FormBuilder } from "@angular/forms";
-import { Quiz, Step } from "../interfaces";
+import { Quiz, Step } from "@kepler-monorepo/data";
 import { QuizApiService } from "./quiz-api.service";
 import { clampValue } from "../utils";
 
@@ -46,11 +46,11 @@ export class QuizWizardStateFacade {
       console.warn("HI!", steps);
       this.stepsFormArray.clear();
       for (const step of steps) this.stepsFormArray.push(this.formBuilder.group({
-        id: step.id,
-        questions: this.formBuilder.array(step.questions.map(({ id }) => ({ id, answer: "" })))
+        _id: step._id,
+        questions: this.formBuilder.array(step.questions.map(({ _id }) => ({ _id, answer: "" })))
       }));
     }),
-    shareReplay({ refCount: true, bufferSize: 1 }),
+    shareReplay({ refCount: true, bufferSize: 1 })
   );
 
   public quizFormRecord = this.formBuilder.record({
@@ -80,16 +80,21 @@ export class QuizWizardStateFacade {
   }
 
   // Commands
-  public fetchQuiz(): Observable<Quiz> {
+  public fetchQuiz(): Observable<Quiz | null> {
     if (this.state.loaded && this.state.quiz) return of(this.state.quiz);
 
-    return this.quizService.getQuiz()
+    return this.quizService.getApiQuiz()
       .pipe(
         tap((quiz) => {
+          console.warn("fetch quiz success", quiz);
           this.patchState({ quiz, loaded: true });
           this.setStep(this.state.currentStep);
 
           // this.quizFormRecord.reset({})
+        }),
+        catchError((err) => {
+          console.warn("fetch quiz error", err);
+          return of(null);
         })
       );
   }

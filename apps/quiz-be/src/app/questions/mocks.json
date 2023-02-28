@@ -1,0 +1,61 @@
+{
+  "id": "123",
+  "steps": [
+    {
+      "id": "1",
+      "title": "First",
+      "questions": [
+        {
+          "id": "1",
+          "type": "input",
+          "label": "What is your name?"
+        },
+        {
+          "id": "2",
+          "type": "single-choice",
+          "label": "What is your favorite color?",
+          "options": ["Red", "Green", "Blue"]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "title": "Second",
+      "questions": [
+        {
+          "id": "3",
+          "type": "numeric",
+          "label": "How many pets do you have?"
+        },
+        {
+          "id": "4",
+          "type": "multi-choice",
+          "label": "Which of these animals do you like?",
+          "options": ["Dogs", "Cats", "Fish", "Birds"]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "title": "Third",
+      "questions": [
+        {
+          "id": "3",
+          "type": "numeric",
+          "label": "How many pets do you have?"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "title": "Fourth",
+      "questions": [
+        {
+          "id": "3",
+          "type": "numeric",
+          "label": "How many pets do you have?"
+        }
+      ]
+    }
+  ]
+}

@@ -1,38 +1,24 @@
 import { Injectable } from "@angular/core";
-import { Quiz } from "../interfaces";
 import { HttpClient } from "@angular/common/http";
-import { delay } from "rxjs";
-
-interface QuizAnswer {
-  id:    string;
-  steps: Step[];
-}
-
-interface Step {
-  id:        string;
-  questions: Question[];
-}
-
-interface Question {
-  id:     string;
-  answer: string;
-}
+import { map } from "rxjs";
+import { Quiz, QuizResult } from "@kepler-monorepo/data";
+import { API_URL } from "../constants";
 
 
 @Injectable({
   providedIn: "root"
 })
 export class QuizApiService {
+  base = new URL(document.baseURI).pathname;
+  apiBase = API_URL;
   constructor(private httpClient: HttpClient) {
   }
 
-  saveQuiz(quiz: Partial<QuizAnswer>) {
-    return this.httpClient.post<void>("/assets/mocks.json", { quiz });
+  saveQuiz(quiz: Partial<QuizResult>) {
+    return this.httpClient.post<void>(`${this.apiBase}/results`, { ...quiz });
   }
 
-  getQuiz() {
-    return this.httpClient.get<Quiz>("/assets/mocks.json").pipe(
-      delay(1000) // TODO remove
-    );
+  getApiQuiz() {
+    return this.httpClient.get<[Quiz]>(`${this.apiBase}/quiz`).pipe(map(([quiz]) => quiz));
   }
 }

@@ -1,0 +1,7 @@
+POST http://localhost:3333/api/questions/
+Content-Type: application/json
+
+{
+  "type": "inputii",
+  "label": "What is your name?"
+}

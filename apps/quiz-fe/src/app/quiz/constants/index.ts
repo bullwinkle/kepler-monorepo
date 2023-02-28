@@ -1,8 +1,5 @@
+import { API_PATH_PREFIX } from "@kepler-monorepo/configuration";
+
 export * from './animations';
 
-export enum ControlType {
-  INPUT = "input",
-  NUMERIC = "numeric",
-  MULTI = "multi-choice",
-  SINGLE = "single-choice",
-}
+export const API_URL=`/${API_PATH_PREFIX}`;

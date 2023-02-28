@@ -14,10 +14,20 @@
       "es2017",
       "dom"
     ],
+    "types": [
+      "node"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@kepler-monorepo/configuration": [
+        "libs/configuration/src/index.ts"
+      ],
+      "@kepler-monorepo/data": [
+        "libs/data/src/index.ts"
+      ]
+    }
   },
   "exclude": [
     "node_modules",

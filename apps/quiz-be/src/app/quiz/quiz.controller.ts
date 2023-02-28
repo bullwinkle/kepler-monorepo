@@ -1,38 +1,34 @@
-import { Controller, Delete, Get, Patch, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { CreateQuizDto } from "./dto/create-quiz.dto";
+import { UpdateQuizDto } from "./dto/update-quiz.dto";
 import { QuizService } from "./quiz.service";
 
-@Controller("quiz")
+@Controller('quiz')
 export class QuizController {
-  constructor(private quizService: QuizService) {
-  }
-
-  @Get()
-  getQuizQuestions() {
-    return this.quizService.getQuiz();
-  }
-
-  @Get()
-  getQuiz() {
-    return this.quizService.getQuiz();
-  }
+  constructor(public readonly service: QuizService) {}
 
   @Post()
-  saveQuiz() {
-    return this.quizService.getQuiz();
+  create(@Body() createQuizDto: CreateQuizDto) {
+    return this.service.create(createQuizDto);
   }
 
-  @Put()
-  updateQuiz() {
-    return this.quizService.getQuiz();
+  @Get()
+  findAll() {
+    return this.service.findAll();
   }
 
-  @Patch()
-  patchQuiz() {
-    return this.quizService.getQuiz();
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.service.findOne(id);
   }
 
-  @Delete()
-  deleteQuiz() {
-    return this.quizService.getQuiz();
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateQuizDto: UpdateQuizDto) {
+    return this.service.update(id, updateQuizDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.service.remove(id);
   }
 }

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { CommonModule } from '@angular/common';
-import { Step } from "../../../interfaces";
+import { Step } from "@kepler-monorepo/data";
 import { QuizQuestionComponent } from "../quiz-question/quiz-question.component";
 
 @Component({
