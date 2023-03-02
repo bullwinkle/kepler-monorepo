@@ -5,7 +5,7 @@ import { provideHttpClient } from "@angular/common/http";
 import { enableProdMode } from "@angular/core";
 
 import { AppComponent } from "./app/app.component";
-import { appRoutes } from "./app/app.routes";
+import appRoutes from "./app/app.routes";
 
 if (process.env['NODE_ENV'] === 'production') {
   enableProdMode();

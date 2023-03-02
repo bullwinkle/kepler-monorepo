@@ -1,12 +1,23 @@
 import { Route } from "@angular/router";
+import { NotFoundComponent } from "./not-found/not-found.component";
+import { HomeComponent } from "./home/home.component";
 
-export const appRoutes: Route[] = [
+export default [
   {
-    path: "quiz",
-    loadComponent: async () => (await import("./quiz/components/quiz-wizard/quiz-wizard.component")).QuizWizardComponent
+    path: "",
+    pathMatch: "full",
+    component: HomeComponent
   },
   {
-    path: "configuration",
-    loadComponent: async () => (await import("./quiz/components/quiz-configuration/quiz-configuration.component")).QuizConfigurationComponent
+    path: "quiz",
+    loadChildren: () => import("./quiz/quiz.routes")
+  },
+  {
+    path: "admin",
+    loadChildren: () => import("./quiz/quiz-admin.routes")
+  },
+  {
+    path: "**",
+    component: NotFoundComponent
   }
-];
+] as Route[];

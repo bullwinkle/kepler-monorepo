@@ -26,6 +26,6 @@ export class QuizSseService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.sse.close();
-    console.warn('sse closed');
+    console.warn('EventSource closed');
   }
 }

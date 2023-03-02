@@ -41,8 +41,6 @@ function getClientEnvironment(configuration: string) {
 }
 
 module.exports = (config: Configuration, options: Options, context: { project: string, target: string, configuration: string }) => {
-  console.warn(options);
-  console.warn(context);
   const definePlugin = new DefinePlugin(getClientEnvironment(context.configuration));
   (config.plugins || (config.plugins = [])).push(definePlugin);
   return config;

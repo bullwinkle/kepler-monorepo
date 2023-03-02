@@ -2,17 +2,17 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'kepler-monorepo-quiz-configuration',
+  selector: 'kepler-monorepo-quiz-results',
   standalone: true,
   imports: [CommonModule],
   template: `
     <p>
-      quiz-configuration works!
+      quiz-results works!
     </p>
   `,
-  styleUrls: ['./quiz-configuration.component.scss'],
+  styleUrls: ['./quiz-results.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QuizConfigurationComponent {
+export class QuizResultsComponent {
 
 }
