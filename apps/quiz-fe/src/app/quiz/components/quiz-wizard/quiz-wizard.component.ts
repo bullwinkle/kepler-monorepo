@@ -83,7 +83,6 @@ export class QuizWizardComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     public stateFacade: QuizWizardStateFacade,
-    // private quizSseService: QuizSseService
   ) {
   }
 
@@ -124,6 +123,7 @@ export class QuizWizardComponent implements OnInit {
       })
     ).subscribe((response) => {
       console.warn("saving success", response);
+      this.router.navigateByUrl('quiz/results');
     });
   }
 }

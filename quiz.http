@@ -1,7 +1,44 @@
-POST http://localhost:3333/api/questions/
+POST http://localhost:3333/api/results/
 Content-Type: application/json
 
 {
-  "type": "inputii",
-  "label": "What is your name?"
+  "quizId": "6401303c6ec5a5a4855f278f",
+  "steps": [
+    {
+      "questions": [
+        {
+          "label": "[label]",
+          "answer": "[answer]",
+          "questionId": "6401303c6ec5a5a4855f27911"
+        },
+        {
+          "label": "[label]",
+          "answer": "[answer]",
+          "questionId": "6401303c6ec5a5a4855f27911"
+        }
+      ]
+    },
+    {
+      "questions": [
+        {
+          "label": "[label]",
+          "answer": "[answer]",
+          "questionId": "6401303c6ec5a5a4855f27911"
+        },
+        {
+          "label": "[label]",
+          "answer": "[answer]",
+          "questionId": "6401303c6ec5a5a4855f27911"
+        }
+      ]
+    }
+  ]
+}
+
+###
+
+POST http://localhost:3333/api/results/
+Content-Type: application/json
+
+{
 }

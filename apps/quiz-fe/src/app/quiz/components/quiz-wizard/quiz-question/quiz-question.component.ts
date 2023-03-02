@@ -80,9 +80,9 @@ export class QuizQuestionComponent implements ControlValueAccessor, OnInit {
         const resultAnswer = (answer as Array<boolean | string | null>)
           .map((value, i) => value ? options[i] : null)
           .filter(Boolean);
-        this.onChange({questionId: this.question._id, answer: `${resultAnswer}` });
+        this.onChange({_id: this.question._id, answer: `${resultAnswer}` });
       } else {
-        this.onChange({questionId: this.question._id, answer });
+        this.onChange({_id: this.question._id, answer });
       }
       this.onTouched();
     });
@@ -108,11 +108,11 @@ export class QuizQuestionComponent implements ControlValueAccessor, OnInit {
     if (this.question?.controlType === ControlType.MULTI) {
       const selectedOptions = answer.split(',');
       this.questionFormRecord.patchValue({
-        questionId: _id, answer: (this.question?.options ?? []).map(option => selectedOptions.includes(option))
+        _id: _id, answer: (this.question?.options ?? []).map(option => selectedOptions.includes(option))
       });
     } else {
       this.questionFormRecord.patchValue({
-        questionId: _id, answer
+        _id: _id, answer
       });
     }
   }

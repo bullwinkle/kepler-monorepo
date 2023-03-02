@@ -1,30 +1,37 @@
-import { Prop, Schema } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+
+
+@Schema()
+class QuizAnswer {
+  @Prop({ required: true })
+  label: string;
+  @Prop({ required: true })
+  controlType: string;
+  @Prop({ required: false })
+  options?: string[];
+}
+
+const quizAnswerSchema = SchemaFactory.createForClass(QuizAnswer);
+
+@Schema()
+class QuizStep {
+  @Prop()
+  title: string;
+  @Prop()
+  description: string;
+
+  @Prop({
+    type: [quizAnswerSchema]
+  })
+  readonly questions: QuizAnswer[];
+}
+
+const quizStepSchema = SchemaFactory.createForClass(QuizStep);
 
 @Schema()
 export class QuizEntity {
   @Prop({
-    required: true,
-    type: [
-      {
-        title: String,
-        description: String,
-        questions: [
-          {
-            label: String,
-            controlType: String,
-            options: [String]
-          }
-        ]
-      }
-    ]
+    type: [quizStepSchema]
   })
-  steps: [{
-    title: string;
-    description: string,
-    questions: [{
-      label: string,
-      controlType: string,
-      type: string,
-    }]
-  }];
+  steps: QuizStep[];
 }

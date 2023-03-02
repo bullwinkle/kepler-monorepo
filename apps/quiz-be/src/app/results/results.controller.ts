@@ -10,6 +10,7 @@ export class ResultsController {
 
   @Post()
   async create(@Body() createResponseDto: CreateResultDto) {
+    console.warn('create result', createResponseDto);
     return this.service.create(createResponseDto);
   }
 
