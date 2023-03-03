@@ -55,8 +55,7 @@ export class AppController {
 
         return from([
           { id: crypto.randomUUID(), data } as MessageEvent,
-          { id: crypto.randomUUID(), data, type: SSEType.NOTICE } as MessageEvent,
-          { id: crypto.randomUUID(), data, type: SSEType.UPDATE } as MessageEvent
+          { id: crypto.randomUUID(), data, type: SSEType.QUIZ_UPDATE } as MessageEvent
         ]);
       })
     );

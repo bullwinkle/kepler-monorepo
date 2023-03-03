@@ -25,8 +25,6 @@ import { QuestionsModule } from "./questions/questions.module";
         await memoryServer.start(true);
         return {
           uri: memoryServer.getUri(),
-          // useNewUrlParser: true,
-          // useUnifiedTopology: true
         };
       }
     }),

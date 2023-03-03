@@ -1,11 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from "@nestjs/common";
 import { CreateQuizDto } from "./dto/create-quiz.dto";
 import { UpdateQuizDto } from "./dto/update-quiz.dto";
 import { QuizService } from "./quiz.service";
+import { AppSSEService } from "../app-sse.service";
+import { SSEType } from "@kepler-monorepo/data";
+import { Request } from "express";
 
 @Controller('quiz')
 export class QuizController {
-  constructor(public readonly service: QuizService) {}
+  constructor(public readonly service: QuizService, private appSSEService: AppSSEService) {}
 
   @Post()
   create(@Body() createQuizDto: CreateQuizDto) {
@@ -23,7 +26,8 @@ export class QuizController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateQuizDto: UpdateQuizDto) {
+  update(@Param('id') id: string, @Body() updateQuizDto: UpdateQuizDto, @Req() request: Request) {
+    this.appSSEService.sendMessage({type: SSEType.QUIZ_UPDATE, sessionId: request.sessionID, quiz: updateQuizDto});
     return this.service.update(id, updateQuizDto);
   }
 

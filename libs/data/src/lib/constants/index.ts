@@ -6,7 +6,7 @@ export enum ControlType {
 }
 
 export enum SSEType {
-  NOTICE = "notice",
-  UPDATE = "update",
+  QUIZ_UPDATE = "quiz:update",
+  QUIZ_RESULT_UPDATE = "quiz-result:update",
   MESSAGE = "message",
 }

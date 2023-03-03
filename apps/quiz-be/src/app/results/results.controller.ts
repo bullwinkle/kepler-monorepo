@@ -1,11 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Req } from "@nestjs/common";
 import { ResultsService } from "./results.service";
 import { CreateResultDto } from "./dto/create-result.dto";
 import { UpdateResultDto } from "./dto/update-result.dto";
+import { SSEType } from "@kepler-monorepo/data";
+import { Request } from "express";
+import { AppSSEService } from "../app-sse.service";
 
 @Controller('results')
 export class ResultsController {
-  constructor(public readonly service: ResultsService) {
+  constructor(public readonly service: ResultsService, private appSSEService: AppSSEService) {
   }
 
   @Post()
@@ -25,7 +28,8 @@ export class ResultsController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateResponseDto: UpdateResultDto) {
+  async update(@Param('id') id: string, @Body() updateResponseDto: UpdateResultDto, @Req() request: Request) {
+    this.appSSEService.sendMessage({type: SSEType.QUIZ_RESULT_UPDATE, sessionId: request.sessionID, quizResult: updateResponseDto});
     return this.service.update(id, updateResponseDto);
   }
 

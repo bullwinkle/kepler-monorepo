@@ -8,7 +8,7 @@ import {
   ViewChildren
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { animationFrameScheduler, BehaviorSubject, combineLatest, delay, filter, map, take } from "rxjs";
+import { animationFrameScheduler, BehaviorSubject, combineLatest, delay, filter, map, startWith, take } from "rxjs";
 import { ReactiveFormsModule } from "@angular/forms";
 import { QuizStepComponent } from "./quiz-step/quiz-step.component";
 import { QuizQuestionComponent } from "./quiz-question/quiz-question.component";
@@ -154,8 +154,8 @@ export class QuizWizardComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     combineLatest([
-      this.questionComponents.changes,
-      this.stateFacade.quizFormRecord.valueChanges
+      this.questionComponents.changes.pipe(startWith(this.questionComponents)),
+      this.stateFacade.quizFormRecord.valueChanges.pipe(startWith(this.questionComponents, this.stateFacade.quizFormRecord.value))
     ]).pipe(
       map(([it]) => it.toArray().every((it2: any) => it2.questionFormRecord.valid)),
       delay(0, animationFrameScheduler)

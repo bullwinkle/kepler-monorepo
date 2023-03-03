@@ -4,10 +4,11 @@ import { QuizController } from "./quiz.controller";
 import { MongooseModule } from "@nestjs/mongoose";
 import { quizSchema } from "./quiz.schema";
 import { QuizEntity } from "./entities/quiz.entity";
+import { AppSSEService } from "../app-sse.service";
 
 @Module({
   controllers: [QuizController],
-  providers: [QuizService],
+  providers: [QuizService, AppSSEService],
   imports: [
     MongooseModule.forFeature([
       { name: QuizEntity.name, schema: quizSchema },
