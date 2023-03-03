@@ -10,3 +10,11 @@ export const provideControlValueAccessor = <T>(classFn: () => Type<T>): Provider
   multi: true,
   useExisting: forwardRef(classFn)
 });
+
+export function messageId(): { id: string } {
+  return { id: createUUID() };
+}
+
+export function createUUID (){
+  return crypto.randomUUID();
+}
