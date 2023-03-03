@@ -37,6 +37,7 @@
   box-sizing: border-box;
   box-shadow: 0 0 0 $borderWidth lightgray inset;
   background: white;
+  border-radius: 5px;
   overflow: hidden;
   transition: box-shadow .5s ease;
   &.is-valid {
@@ -58,4 +59,8 @@
   text-align: center;
   justify-content: center;
   align-items: flex-start;
+}
+
+.centered {
+  margin: 0 auto;
 }

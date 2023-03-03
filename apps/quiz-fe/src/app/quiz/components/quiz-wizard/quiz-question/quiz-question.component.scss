@@ -1,0 +1,15 @@
+.question-label {
+  margin-bottom: 20px;
+}
+
+.text-right {
+  text-align: right;
+}
+
+:host {
+  &::ng-deep {
+    input[type=text], textarea {
+      min-width: 220px;
+    }
+  }
+}

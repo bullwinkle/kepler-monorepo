@@ -15,33 +15,50 @@ import { provideControlValueAccessor } from "../../../utils";
     <!-- Using *ngIf instead of [ngSwitch] because of type checking bug in [ngSwitch] (https://spin.atomicobject.com/2021/12/01/ngswitch-type-errors/) -->
     <ng-container *ngIf="question" [formGroup]="questionFormRecord">
       <div *ngIf="question.controlType === controlType.INPUT">
-        <label>{{ question.label }}</label>
-        <input [formControlName]="'answer'" [value]="questionFormRecord.get('answer')?.value" type="text">
+        <label class="flex-row flex-gap-lg question-label">
+          <div class="flex-item-1 text-right">{{ question.label }}</div>
+          <div class="flex-item-1"><input [formControlName]="'answer'" [value]="questionFormRecord.get('answer')?.value"
+                                          type="text"></div>
+        </label>
       </div>
 
       <div *ngIf="question.controlType === controlType.NUMERIC">
-        <label>{{ question.label }}</label>
-        <input [formControlName]="'answer'" [value]="questionFormRecord.get('answer')?.value"
-               type="number">
+        <label class="flex-row flex-gap-lg question-label">
+          <div class="flex-item-1 text-right">{{ question.label }}</div>
+          <div class="flex-item-1"><input [formControlName]="'answer'" [value]="questionFormRecord.get('answer')?.value"
+                                          type="number"></div>
+        </label>
       </div>
 
       <div *ngIf="question.controlType === controlType.SINGLE && question.options as options">
-        <label>{{ question.label }}</label>
-        <div *ngFor="let option of options">
-          <label>
-            <input [formControlName]="'answer'" type="radio" [value]="option">
-            {{ option }}
-          </label>
+        <div class="flex-row flex-gap-lg question-label">
+          <div class="flex-item-1 text-right">
+            <label>{{ question.label }}</label>
+          </div>
+          <div class="flex-item-1">
+            <div *ngFor="let option of options">
+              <label>
+                <input [formControlName]="'answer'" type="radio" [value]="option">
+                {{ option }}
+              </label>
+            </div>
+          </div>
         </div>
       </div>
 
       <div *ngIf="question.controlType === controlType.MULTI && question.options as options" [formArrayName]="'answer'">
-        <label>{{ question.label }}</label>
-        <div *ngFor="let option of options; let optionIndex = index">
-          <label>
-            <input [formControlName]="optionIndex" type="checkbox" [value]="option">
-            {{ option }}
-          </label>
+        <div class="flex-row flex-gap-lg question-label">
+          <div class="flex-item-1 text-right">
+            <label>{{ question.label }}</label>
+          </div>
+          <div class="flex-item-1">
+            <div *ngFor="let option of options; let optionIndex = index">
+              <label>
+                <input [formControlName]="optionIndex" type="checkbox" [value]="option">
+                {{ option }}
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </ng-container>

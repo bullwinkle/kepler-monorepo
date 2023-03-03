@@ -43,12 +43,14 @@ import { QuizSseService } from "../../services/quiz-sse.service";
             class="wizard-step"
             [class.is-valid]="isCurrentStepValid$ | async"
             [step]="step">
-            <h3>{{ step.title }}</h3>
-            <kepler-monorepo-quiz-question
-              *ngFor="let question of step.questions; let questionIndex = index"
-              [formControlName]="questionIndex"
-              [question]="question">
-            </kepler-monorepo-quiz-question>
+            <div class="centered">
+              <h3 style="text-align: center;">{{ step.title }}</h3>
+              <kepler-monorepo-quiz-question
+                *ngFor="let question of step.questions; let questionIndex = index"
+                [formControlName]="questionIndex"
+                [question]="question">
+              </kepler-monorepo-quiz-question>
+            </div>
           </kepler-monorepo-quiz-step>
         </ng-container>
         </div>
