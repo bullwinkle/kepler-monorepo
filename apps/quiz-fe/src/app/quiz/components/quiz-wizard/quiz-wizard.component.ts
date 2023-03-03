@@ -34,9 +34,7 @@ import { QuizSseService } from "../../services/quiz-sse.service";
       loaded: stateFacade.loaded$ | async
     } as ctx">
       <div formArrayName="steps" [@slideAnimation]="ctx.currentStep" class="wizard-steps">
-        <!--      <div formArrayName="steps" class="wizard-steps">-->
         <div *ngIf="!ctx.loaded">Loading...</div>
-        <!--        <ng-container *ngFor="let step of ctx.steps; let i = index" [formGroupName]="">-->
         <ng-container *ngFor="let step of ctx.quiz?.steps; let stepIndex = index" [formGroupName]="stepIndex">
           <kepler-monorepo-quiz-step
             formArrayName="questions"
