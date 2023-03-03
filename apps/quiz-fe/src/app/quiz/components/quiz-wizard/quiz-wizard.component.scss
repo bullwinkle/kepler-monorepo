@@ -42,6 +42,11 @@
   &.is-valid {
     box-shadow: 0 0 0 $borderWidth green inset;
   }
+
+  & > *:not(:first-child) {
+    display: block;
+    margin-top: 15px;
+  }
 }
 
 .quiz-step {

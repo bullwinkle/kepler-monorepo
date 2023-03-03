@@ -89,7 +89,7 @@ export class QuizWizardStateFacade {
   public fetchQuiz(): Observable<Quiz | null> {
     if (this.state.loaded && this.state.quiz) return of(this.state.quiz);
 
-    return this.quizService.getApiQuiz()
+    return this.quizService.getQuiz()
       .pipe(
         tap((quiz) => {
           this.patchState({ quiz, loaded: true });

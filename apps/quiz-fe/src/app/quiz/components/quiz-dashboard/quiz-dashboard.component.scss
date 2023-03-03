@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  flex-flow: row;
+  gap: 20px;
+
+  &::ng-deep pre {
+    background: #f0efef;
+    border-radius: 3px;
+    margin: 10px;
+    padding: 5px;
+  }
+}

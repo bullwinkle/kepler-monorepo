@@ -76,6 +76,7 @@ import { QuizSseService } from "../../services/quiz-sse.service";
         <button
           type="submit"
           class="submit-button"
+          [disabled]="(isCurrentStepValid$ | async) !== true"
           *ngIf="ctx.currentStep === (ctx.quiz?.steps?.length ?? 0) - 1"
           (click)="onSubmit()">
           Submit

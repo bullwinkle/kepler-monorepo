@@ -1,59 +1,56 @@
 {
-  "id": "123",
   "steps": [
     {
-      "id": "1",
-      "title": "First",
+      "title": "User info",
       "questions": [
         {
-          "id": "1",
           "controlType": "input",
           "label": "What is your name?"
         },
         {
-          "id": "2",
+          "controlType": "input",
+          "label": "What is your last name?"
+        },
+        {
           "controlType": "single-choice",
-          "label": "What is your favorite color?",
-          "options": ["Red", "Green", "Blue"]
+          "label": "What is your sex?",
+          "options": ["Male", "Female", "Other"]
+        },
+        {
+          "controlType": "single-choice",
+          "label": "Are you married?",
+          "options": ["Yes", "No"]
         }
       ]
     },
     {
-      "id": "2",
-      "title": "Second",
+      "title": "Address",
       "questions": [
         {
-          "id": "3",
+          "controlType": "input",
+          "label": "What is your country?"
+        },
+        {
+          "controlType": "input",
+          "label": "What is your city?"
+        },
+        {
+          "controlType": "numeric",
+          "label": "What is your index?"
+        }
+      ]
+    },
+    {
+      "title": "Personal info",
+      "questions": [
+        {
           "controlType": "numeric",
           "label": "How many pets do you have?"
         },
         {
-          "id": "4",
           "controlType": "multi-choice",
           "label": "Which of these animals do you like?",
           "options": ["Dogs", "Cats", "Fish", "Birds"]
-        }
-      ]
-    },
-    {
-      "id": "3",
-      "title": "Third",
-      "questions": [
-        {
-          "id": "3",
-          "controlType": "numeric",
-          "label": "How many pets do you have?"
-        }
-      ]
-    },
-    {
-      "id": "4",
-      "title": "Fourth",
-      "questions": [
-        {
-          "id": "3",
-          "controlType": "numeric",
-          "label": "How many pets do you have?"
         }
       ]
     }

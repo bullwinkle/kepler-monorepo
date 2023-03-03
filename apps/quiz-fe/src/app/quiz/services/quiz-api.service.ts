@@ -18,7 +18,15 @@ export class QuizApiService {
     return this.httpClient.post<void>(`${this.apiBase}/results`, { ...quiz });
   }
 
-  getApiQuiz() {
-    return this.httpClient.get<[Quiz]>(`${this.apiBase}/quiz`).pipe(map(([quiz]) => quiz));
+  getQuiz() {
+    return this.getApiQuizList().pipe(map(([quiz]) => quiz));
+  }
+
+  getApiQuizList() {
+    return this.httpClient.get<[Quiz]>(`${this.apiBase}/quiz`);
+  }
+
+  getApiQuizResultsList() {
+    return this.httpClient.get<[Quiz]>(`${this.apiBase}/results`);
   }
 }

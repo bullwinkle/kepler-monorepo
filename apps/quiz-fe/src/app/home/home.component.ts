@@ -7,9 +7,11 @@ import { RouterLink } from "@angular/router";
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <h1>Welcome!</h1>
-    <p>Let's fill some quiz?</p>
-    <a routerLink="quiz">quiz</a>
+    <div class="content">
+      <h1>Welcome!</h1>
+      <p>Let's fill some quiz?</p>
+      <a routerLink="quiz">SURE!</a>
+    </div>
   `,
   styleUrls: ['./home.component.scss']
 })

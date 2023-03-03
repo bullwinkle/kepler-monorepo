@@ -16,12 +16,12 @@ import { provideControlValueAccessor } from "../../../utils";
     <ng-container *ngIf="question" [formGroup]="questionFormRecord">
       <div *ngIf="question.controlType === controlType.INPUT">
         <label>{{ question.label }}</label>
-        <input [formControlName]="'answer'" [value]="questionFormRecord.get('answer')?.value" name="answer" type="text">
+        <input [formControlName]="'answer'" [value]="questionFormRecord.get('answer')?.value" type="text">
       </div>
 
       <div *ngIf="question.controlType === controlType.NUMERIC">
         <label>{{ question.label }}</label>
-        <input [formControlName]="'answer'" [value]="questionFormRecord.get('answer')?.value" name="answer"
+        <input [formControlName]="'answer'" [value]="questionFormRecord.get('answer')?.value"
                type="number">
       </div>
 
@@ -29,7 +29,7 @@ import { provideControlValueAccessor } from "../../../utils";
         <label>{{ question.label }}</label>
         <div *ngFor="let option of options">
           <label>
-            <input [formControlName]="'answer'" name="answer" type="radio" [value]="option">
+            <input [formControlName]="'answer'" type="radio" [value]="option">
             {{ option }}
           </label>
         </div>
@@ -39,7 +39,7 @@ import { provideControlValueAccessor } from "../../../utils";
         <label>{{ question.label }}</label>
         <div *ngFor="let option of options; let optionIndex = index">
           <label>
-            <input [formControlName]="optionIndex" name="answer" type="checkbox" [value]="option">
+            <input [formControlName]="optionIndex" type="checkbox" [value]="option">
             {{ option }}
           </label>
         </div>
@@ -114,5 +114,9 @@ export class QuizQuestionComponent implements ControlValueAccessor, OnInit {
         _id, label, answer
       });
     }
+  }
+
+  labelToId (label: string): string {
+    return label.replace(/\s/g, '')
   }
 }
