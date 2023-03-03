@@ -78,15 +78,12 @@ import { QuizSseService } from "../../services/quiz-sse.service";
         <button
           type="submit"
           class="submit-button"
-          [disabled]="(isCurrentStepValid$ | async) !== true"
-          *ngIf="ctx.currentStep === (ctx.quiz?.steps?.length ?? 0) - 1"
+          [disabled]="(ctx.currentStep !== (ctx.quiz?.steps?.length ?? 0) - 1) || (isCurrentStepValid$ | async) !== true"
           (click)="onSubmit()">
           Submit
         </button>
       </div>
     </form>
-
-<!--    <pre>{{ stateFacade.quizFormRecord.value | json }}</pre>-->
   `
 })
 export class QuizWizardComponent implements OnInit, AfterViewInit {

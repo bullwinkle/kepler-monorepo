@@ -7,10 +7,13 @@ import { QuizApiService } from "../../../services/quiz-api.service";
   standalone: true,
   imports: [CommonModule],
   template: `
-    <p>Quiz list</p>
-
     <ng-container *ngIf="list$ | async as list">
-      <pre>{{ list | json }}</pre>
+      <h3>Quiz list ({{ list.length }})</h3>
+      
+      <ng-container *ngFor="let item of list$ | async; let i = index">
+        <h4>{{ i }}</h4>
+        <pre>{{ item | json }}</pre>
+      </ng-container>
     </ng-container>
   `,
   styleUrls: ['./quiz-list.component.scss'],
