@@ -9,6 +9,14 @@
   overflow: hidden;
 }
 
+.wizard-step {
+  border: 2px solid gray;
+  background: white;
+  &.is-valid {
+    border-color: green;
+  }
+}
+
 .quiz-step {
   display: block;
 }

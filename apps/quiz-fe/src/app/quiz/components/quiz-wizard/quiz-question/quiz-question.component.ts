@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { ControlValueAccessor, FormBuilder, FormRecord, ReactiveFormsModule } from "@angular/forms";
+import { ControlValueAccessor, FormBuilder, FormRecord, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ControlType, Question } from "@kepler-monorepo/data";
 import { provideControlValueAccessor } from "../../../utils";
 
@@ -47,6 +47,7 @@ import { provideControlValueAccessor } from "../../../utils";
     </ng-container>
   `,
   styleUrls: ["./quiz-question.component.scss"],
+  exportAs:"quiz-question",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuizQuestionComponent implements ControlValueAccessor, OnInit {
@@ -57,8 +58,8 @@ export class QuizQuestionComponent implements ControlValueAccessor, OnInit {
   private isDisabled = false;
 
   questionFormRecord: FormRecord = this.formBuilder.record({
-    label: "",
-    answer: ""
+    label: this.formBuilder.control(''),
+    answer: this.formBuilder.control('', {validators: Validators.required})
   }, { updateOn: "change" });
 
   onChange: (v: any) => void = (v) => console.warn("onChange not implemented", v);
@@ -70,8 +71,11 @@ export class QuizQuestionComponent implements ControlValueAccessor, OnInit {
   ngOnInit(): void {
     if (this.question?.controlType === ControlType.MULTI) {
       this.questionFormRecord.setControl("answer", this.formBuilder.array([
-        ...(this.question.options ?? []).map(() => this.formBuilder.control(false))
-      ]));
+        ...(this.question.options ?? []).map(() => this.formBuilder.control(null))
+      ], {validators: (control) => {
+        console.warn('[validate]', )
+        return control.value.some(Boolean) ? null : {required: true};
+        }}));
     }
 
     this.questionFormRecord.valueChanges.subscribe(({ answer }) => {

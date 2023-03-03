@@ -5,7 +5,7 @@ const duration = ".5s";
 export const slideLeft = [
   group([
     query(":enter", [
-      style({ transform: "translateX(-100%)", opacity: 0 }),
+      style({ transform: "translateX(-100%)", opacity: 0, zIndex: 2 }),
       animate(`${duration} ease-out`, style({ transform: "translateX(0%)", opacity: 1 }))
     ], { optional: true }),
     query(":leave", [
@@ -22,7 +22,7 @@ export const slideLeft = [
 export const slideRight = [
   group([
     query(":enter", [
-      style({ transform: "translateX(100%)", opacity: 0 }),
+      style({ transform: "translateX(100%)", opacity: 0, zIndex: 2 }),
       animate(`${duration} ease-out`, style({ transform: "translateX(0%)", opacity: 1 }))
     ], { optional: true }),
     query(":leave", [

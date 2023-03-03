@@ -1,6 +1,14 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnInit } from "@angular/core";
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  OnInit,
+  QueryList,
+  ViewChildren
+} from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { filter, map } from "rxjs";
+import { animationFrameScheduler, BehaviorSubject, combineLatest, delay, filter, map, take } from "rxjs";
 import { ReactiveFormsModule } from "@angular/forms";
 import { QuizStepComponent } from "./quiz-step/quiz-step.component";
 import { QuizQuestionComponent } from "./quiz-question/quiz-question.component";
@@ -26,12 +34,16 @@ import { QuizSseService } from "../../services/quiz-sse.service";
       loaded: stateFacade.loaded$ | async
     } as ctx">
       <div formArrayName="steps" [@slideAnimation]="ctx.currentStep" class="wizard-steps">
-<!--      <div formArrayName="steps" class="wizard-steps">-->
+        <!--      <div formArrayName="steps" class="wizard-steps">-->
         <div *ngIf="!ctx.loaded">Loading...</div>
         <!--        <ng-container *ngFor="let step of ctx.steps; let i = index" [formGroupName]="">-->
         <ng-container *ngFor="let step of ctx.quiz?.steps; let stepIndex = index" [formGroupName]="stepIndex">
-          <kepler-monorepo-quiz-step formArrayName="questions" *ngIf="ctx.currentStep === stepIndex" class="wizard-step"
-                                     [step]="step">
+          <kepler-monorepo-quiz-step
+            formArrayName="questions"
+            *ngIf="ctx.currentStep === stepIndex"
+            class="wizard-step"
+            [class.is-valid]="isCurrentStepValid$ | async"
+            [step]="step">
             <h3>{{ step.title }}</h3>
             <kepler-monorepo-quiz-question
               *ngFor="let question of step.questions; let questionIndex = index"
@@ -40,6 +52,7 @@ import { QuizSseService } from "../../services/quiz-sse.service";
             </kepler-monorepo-quiz-question>
           </kepler-monorepo-quiz-step>
         </ng-container>
+        <pre>valid: {{ isCurrentStepValid$ | async }}</pre>
       </div>
 
       <div class="wizard-navigation">
@@ -56,7 +69,7 @@ import { QuizSseService } from "../../services/quiz-sse.service";
           type="button"
           class="next-button"
           (click)="goToNextStep()"
-          [disabled]="!ctx.quiz?.steps?.length || ctx.currentStep === (ctx.quiz?.steps?.length ?? 0) - 1">
+          [disabled]="(!ctx.quiz?.steps?.length || ctx.currentStep === (ctx.quiz?.steps?.length ?? 0) - 1) || (isCurrentStepValid$ | async) !== true">
           Next
         </button>
 
@@ -69,20 +82,25 @@ import { QuizSseService } from "../../services/quiz-sse.service";
         </button>
       </div>
     </form>
-    
+
     <pre>{{ stateFacade.quizFormRecord.value | json }}</pre>
-  `,
+  `
 })
-export class QuizWizardComponent implements OnInit {
+export class QuizWizardComponent implements OnInit, AfterViewInit {
+  @ViewChildren(QuizQuestionComponent) questionComponents!: QueryList<QuizQuestionComponent>;
+
   get currentStep() {
     return this.stateFacade.state.currentStep;
   }
+
+  isCurrentStepValid$ = new BehaviorSubject(false);
+
 
   constructor(
     private quizService: QuizApiService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    public stateFacade: QuizWizardStateFacade,
+    public stateFacade: QuizWizardStateFacade
   ) {
   }
 
@@ -108,7 +126,9 @@ export class QuizWizardComponent implements OnInit {
 
   @HostListener("document:keydown.ArrowRight", ["$event"])
   goToNextStep() {
-    this.stateFacade.nextStep();
+    this.isCurrentStepValid$.pipe(take(1)).subscribe((isStepValid) => {
+      if (isStepValid) this.stateFacade.nextStep();
+    })
   }
 
   onSubmit() {
@@ -117,18 +137,30 @@ export class QuizWizardComponent implements OnInit {
       steps: this.stateFacade.stepsFormArray.value.map((it) => ({
         ...it,
         _id: `${it._id}`,
-        questions: (it.questions ?? []).map(it2 => ({...it2, questionId: it2._id}))
+        questions: (it.questions ?? []).map(it2 => ({ ...it2, questionId: it2._id }))
       }))
     };
     this.quizService.saveQuiz(formResult).subscribe({
       next: (response) => {
-        console.log('saveQuiz: next', response);
-        this.router.navigateByUrl('quiz/results');
+        console.log("saveQuiz: next", response);
+        this.router.navigateByUrl("quiz/results");
       },
       error: (error) => {
-        console.warn('saveQuiz: error', error);
+        console.warn("saveQuiz: error", error);
       },
-      complete: () => console.log('saveQuiz: complete'),
+      complete: () => console.log("saveQuiz: complete")
+    });
+  }
+
+  ngAfterViewInit(): void {
+    combineLatest([
+      this.questionComponents.changes,
+      this.stateFacade.quizFormRecord.valueChanges
+    ]).pipe(
+      map(([it]) => it.toArray().every((it2: any) => it2.questionFormRecord.valid)),
+      delay(0, animationFrameScheduler)
+    ).subscribe((isValid) => {
+      this.isCurrentStepValid$.next(isValid);
     });
   }
 }
