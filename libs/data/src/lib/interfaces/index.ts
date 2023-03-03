@@ -18,17 +18,17 @@ export interface Step {
 }
 
 export interface QuizResultQuestion {
-  _id?: string;
+  _id: string;
   label: string;
   answer: string;
 }
 
 export interface QuizResultStep {
-  _id?: string;
+  _id: string;
   questions: QuizResultQuestion[];
 }
 
 export interface QuizResult {
-  _id?: string;
+  _id: string;
   steps: QuizResultStep[];
 }

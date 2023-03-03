@@ -57,6 +57,7 @@ export class QuizQuestionComponent implements ControlValueAccessor, OnInit {
   private isDisabled = false;
 
   questionFormRecord: FormRecord = this.formBuilder.record({
+    label: "",
     answer: ""
   }, { updateOn: "change" });
 
@@ -75,14 +76,14 @@ export class QuizQuestionComponent implements ControlValueAccessor, OnInit {
 
     this.questionFormRecord.valueChanges.subscribe(({ answer }) => {
       console.warn("this.questionFormRecord.valueChanges -> onChange", { answer });
-      if (this.question?.controlType === ControlType.MULTI) {
-        const options = this.question.options ?? [];
+      const { controlType, options = [] as string[], label, _id } = this.question ?? {};
+      if (controlType === ControlType.MULTI) {
         const resultAnswer = (answer as Array<boolean | string | null>)
           .map((value, i) => value ? options[i] : null)
           .filter(Boolean);
-        this.onChange({_id: this.question._id, answer: `${resultAnswer}` });
+        this.onChange({_id, label, answer: `${resultAnswer}` });
       } else {
-        this.onChange({_id: this.question._id, answer });
+        this.onChange({_id, label, answer });
       }
       this.onTouched();
     });
@@ -103,16 +104,16 @@ export class QuizQuestionComponent implements ControlValueAccessor, OnInit {
     this.isDisabled = isDisabled;
   }
 
-  writeValue({answer, _id}: {_id: string; answer: string}): void {
+  writeValue({answer, label, _id}: {_id: string; answer: string, label: string}): void {
     console.warn("writeValue", this.question);
     if (this.question?.controlType === ControlType.MULTI) {
       const selectedOptions = answer.split(',');
       this.questionFormRecord.patchValue({
-        _id: _id, answer: (this.question?.options ?? []).map(option => selectedOptions.includes(option))
+        _id, label, answer: (this.question?.options ?? []).map(option => selectedOptions.includes(option))
       });
     } else {
       this.questionFormRecord.patchValue({
-        _id: _id, answer
+        _id, label, answer
       });
     }
   }

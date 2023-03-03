@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { catchError, filter, map, of } from "rxjs";
+import { filter, map } from "rxjs";
 import { ReactiveFormsModule } from "@angular/forms";
 import { QuizStepComponent } from "./quiz-step/quiz-step.component";
 import { QuizQuestionComponent } from "./quiz-question/quiz-question.component";
@@ -113,17 +113,22 @@ export class QuizWizardComponent implements OnInit {
 
   onSubmit() {
     const formResult = {
-      _id: this.stateFacade.state.quiz?._id,
-      steps: this.stateFacade.stepsFormArray.value
+      quizId: this.stateFacade.state.quiz?._id,
+      steps: this.stateFacade.stepsFormArray.value.map((it) => ({
+        ...it,
+        _id: `${it._id}`,
+        questions: (it.questions ?? []).map(it2 => ({...it2, questionId: it2._id}))
+      }))
     };
-    this.quizService.saveQuiz(formResult).pipe(
-      catchError((error: Error) => {
-        console.warn("ERROR saving quiz", error);
-        return of(null);
-      })
-    ).subscribe((response) => {
-      console.warn("saving success", response);
-      this.router.navigateByUrl('quiz/results');
+    this.quizService.saveQuiz(formResult).subscribe({
+      next: (response) => {
+        console.log('saveQuiz: next', response);
+        this.router.navigateByUrl('quiz/results');
+      },
+      error: (error) => {
+        console.warn('saveQuiz: error', error);
+      },
+      complete: () => console.log('saveQuiz: complete'),
     });
   }
 }

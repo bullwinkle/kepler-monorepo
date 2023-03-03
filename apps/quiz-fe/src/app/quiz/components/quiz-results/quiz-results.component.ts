@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <p>
-      quiz-results works!
+      Congratulations! You've passed the quiz!
     </p>
   `,
   styleUrls: ['./quiz-results.component.scss'],

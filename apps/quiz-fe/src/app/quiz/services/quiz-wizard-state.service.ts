@@ -1,9 +1,16 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, catchError, distinctUntilChanged, map, Observable, of, shareReplay, tap } from "rxjs";
-import { FormArray, FormBuilder } from "@angular/forms";
+import { FormArray, FormControl, FormGroup, NonNullableFormBuilder } from "@angular/forms";
 import { Quiz, Step } from "@kepler-monorepo/data";
 import { QuizApiService } from "./quiz-api.service";
 import { clampValue } from "../utils";
+
+interface Nested {
+  _id: FormControl<string>;
+  questions: FormArray<FormControl<{ _id: string; answer: string; label: string; }>>;
+}
+
+type Result = FormGroup<Nested>;
 
 export interface State {
   currentStep: number;
@@ -45,23 +52,24 @@ export class QuizWizardStateFacade {
       const steps = quiz?.steps ?? [];
       console.warn("HI!", steps);
       this.stepsFormArray.clear();
-      for (const step of steps) this.stepsFormArray.push(this.formBuilder.group({
-        _id: step._id,
-        questions: this.formBuilder.array(step.questions.map(({ _id }) => ({ _id, answer: "" })))
+      for (const step of steps) this.stepsFormArray.push(this.formBuilder.group<Nested>({
+        _id: this.formBuilder.control(step._id),
+        questions: this.formBuilder.array(step.questions.map(({ _id, label }) => ({ _id, label, answer: "" })))
       }));
     }),
     shareReplay({ refCount: true, bufferSize: 1 })
   );
 
+  stepsFormArray = this.formBuilder.array<Result>([]);
   public quizFormRecord = this.formBuilder.record({
-    steps: this.formBuilder.array([])
+    steps: this.stepsFormArray
   }, { updateOn: "change" });
 
-  get stepsFormArray() {
-    return this.quizFormRecord.get("steps") as FormArray;
-  }
+  // get stepsFormArray() {
+  //   return this.quizFormRecord.get("steps") as FormArray;
+  // }
 
-  constructor(private quizService: QuizApiService, private formBuilder: FormBuilder) {
+  constructor(private quizService: QuizApiService, private formBuilder: NonNullableFormBuilder) {
     console.warn("constructor!!!");
     this.quiz$.subscribe();
   }
