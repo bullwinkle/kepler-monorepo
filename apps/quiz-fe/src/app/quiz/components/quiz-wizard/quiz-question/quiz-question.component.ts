@@ -73,13 +73,11 @@ export class QuizQuestionComponent implements ControlValueAccessor, OnInit {
       this.questionFormRecord.setControl("answer", this.formBuilder.array([
         ...(this.question.options ?? []).map(() => this.formBuilder.control(null))
       ], {validators: (control) => {
-        console.warn('[validate]', )
         return control.value.some(Boolean) ? null : {required: true};
         }}));
     }
 
     this.questionFormRecord.valueChanges.subscribe(({ answer }) => {
-      console.warn("this.questionFormRecord.valueChanges -> onChange", { answer });
       const { controlType, options = [] as string[], label, _id } = this.question ?? {};
       if (controlType === ControlType.MULTI) {
         const resultAnswer = (answer as Array<boolean | string | null>)
@@ -94,22 +92,18 @@ export class QuizQuestionComponent implements ControlValueAccessor, OnInit {
   }
 
   registerOnChange(fn: any): void {
-    console.warn("registerOnChange", fn);
     this.onChange = fn;
   }
 
   registerOnTouched(fn: any): void {
-    console.warn("registerOnTouched", fn);
     this.onTouched = fn;
   }
 
   setDisabledState(isDisabled: boolean): void {
-    console.warn("setDisabledState", isDisabled);
     this.isDisabled = isDisabled;
   }
 
   writeValue({answer, label, _id}: {_id: string; answer: string, label: string}): void {
-    console.warn("writeValue", this.question);
     if (this.question?.controlType === ControlType.MULTI) {
       const selectedOptions = answer.split(',');
       this.questionFormRecord.patchValue({

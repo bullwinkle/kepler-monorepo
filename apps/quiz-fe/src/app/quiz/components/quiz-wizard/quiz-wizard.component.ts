@@ -142,13 +142,12 @@ export class QuizWizardComponent implements OnInit, AfterViewInit {
     };
     this.quizService.saveQuiz(formResult).subscribe({
       next: (response) => {
-        console.log("saveQuiz: next", response);
+        console.log("saveQuiz: success", response);
         this.router.navigateByUrl("quiz/results");
       },
       error: (error) => {
         console.warn("saveQuiz: error", error);
-      },
-      complete: () => console.log("saveQuiz: complete")
+      }
     });
   }
 

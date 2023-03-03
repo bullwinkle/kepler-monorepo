@@ -50,7 +50,6 @@ export class QuizWizardStateFacade {
     distinctUntilChanged(),
     tap((quiz) => {
       const steps = quiz?.steps ?? [];
-      console.warn("HI!", steps);
       this.stepsFormArray.clear();
       for (const step of steps) this.stepsFormArray.push(this.formBuilder.group<Nested>({
         _id: this.formBuilder.control(step._id),
@@ -70,7 +69,6 @@ export class QuizWizardStateFacade {
   // }
 
   constructor(private quizService: QuizApiService, private formBuilder: NonNullableFormBuilder) {
-    console.warn("constructor!!!");
     this.quiz$.subscribe();
   }
 
@@ -94,11 +92,8 @@ export class QuizWizardStateFacade {
     return this.quizService.getApiQuiz()
       .pipe(
         tap((quiz) => {
-          console.warn("fetch quiz success", quiz);
           this.patchState({ quiz, loaded: true });
           this.setStep(this.state.currentStep);
-
-          // this.quizFormRecord.reset({})
         }),
         catchError((err) => {
           console.warn("fetch quiz error", err);
