@@ -33,8 +33,8 @@ import { QuizSseService } from "../../services/quiz-sse.service";
       quiz: stateFacade.quiz$ | async, 
       loaded: stateFacade.loaded$ | async
     } as ctx">
+      <div *ngIf="!ctx.loaded">Loading...</div>
       <div formArrayName="steps" [@slideAnimation]="ctx.currentStep" class="wizard-steps">
-        <div *ngIf="!ctx.loaded">Loading...</div>
         <ng-container *ngFor="let step of ctx.quiz?.steps; let stepIndex = index" [formGroupName]="stepIndex">
           <kepler-monorepo-quiz-step
             formArrayName="questions"
@@ -50,7 +50,6 @@ import { QuizSseService } from "../../services/quiz-sse.service";
             </kepler-monorepo-quiz-question>
           </kepler-monorepo-quiz-step>
         </ng-container>
-        <pre>valid: {{ isCurrentStepValid$ | async }}</pre>
       </div>
 
       <div class="wizard-navigation">

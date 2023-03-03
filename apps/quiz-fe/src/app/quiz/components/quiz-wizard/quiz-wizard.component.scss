@@ -1,19 +1,24 @@
 :host {
   display: block;
+  min-height: 400px;
 }
 
 .wizard-steps {
   position: relative;
   width: 100%;
-  min-height: 400px;
   overflow: hidden;
 }
 
 .wizard-step {
-  border: 2px solid gray;
+  $borderWidth: 2px;
+  padding: $borderWidth + 4px;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 $borderWidth transparent inset;
   background: white;
+  overflow: hidden;
+  transition: box-shadow .5s ease;
   &.is-valid {
-    border-color: green;
+    box-shadow: 0 0 0 $borderWidth green inset;
   }
 }
 
