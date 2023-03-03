@@ -1,7 +1,8 @@
+import * as crypto from "crypto";
 import { Injectable, MessageEvent } from "@nestjs/common";
 import { BehaviorSubject, filter, Observable } from "rxjs";
 import { Session as SessionStorage } from "express-session";
-import { createUUID, SSEType } from "@kepler-monorepo/data";
+import { SSEType } from "@kepler-monorepo/data";
 
 
 export interface ClientMessagePayload {
@@ -13,7 +14,7 @@ export interface ClientMessagePayload {
 export type ClientMessageParams = Partial<Pick<ClientMessage, "type" | "retry">> & ClientMessagePayload;
 
 export class ClientMessage implements MessageEvent {
-  id: string = createUUID();
+  id: string = crypto.randomUUID();
   type: SSEType = SSEType.MESSAGE;
   data: ClientMessagePayload;
   retry: number;

@@ -1,8 +1,9 @@
+import * as crypto from "crypto";
 import { Controller, Get, MessageEvent, Req, Session, Sse } from "@nestjs/common";
 import { Request } from "express";
 import { Session as SessionStorage } from "express-session";
 import { from, interval, mergeMap, Observable, switchMap } from "rxjs";
-import { SSEType, messageId } from "@kepler-monorepo/data";
+import { SSEType } from "@kepler-monorepo/data";
 
 import { AppService } from "./app.service";
 import { AppSSEService } from "./app-sse.service";
@@ -53,9 +54,9 @@ export class AppController {
         console.warn("session", session);
 
         return from([
-          { ...messageId(), data } as MessageEvent,
-          { ...messageId(), data, type: SSEType.NOTICE } as MessageEvent,
-          { ...messageId(), data, type: SSEType.UPDATE } as MessageEvent
+          { id: crypto.randomUUID(), data } as MessageEvent,
+          { id: crypto.randomUUID(), data, type: SSEType.NOTICE } as MessageEvent,
+          { id: crypto.randomUUID(), data, type: SSEType.UPDATE } as MessageEvent
         ]);
       })
     );
