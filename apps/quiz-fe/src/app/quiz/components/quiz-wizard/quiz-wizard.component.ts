@@ -28,13 +28,14 @@ import { QuizSseService } from "../../services/quiz-sse.service";
   animations: [slideAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <form class="multi-step-wizard" [formGroup]="stateFacade.quizFormRecord" *ngIf="{
+    <form class="quiz-wizard flex-column" [formGroup]="stateFacade.quizFormRecord" *ngIf="{
       currentStep: stateFacade.currentStep$ | async, 
       quiz: stateFacade.quiz$ | async, 
       loaded: stateFacade.loaded$ | async
     } as ctx">
       <div *ngIf="!ctx.loaded">Loading...</div>
-      <div formArrayName="steps" [@slideAnimation]="ctx.currentStep" class="wizard-steps">
+      <div formArrayName="steps" [@slideAnimation]="ctx.currentStep" class="flex-item-1 wizard-steps-container">
+        <div class="wizard-steps overflow-1">
         <ng-container *ngFor="let step of ctx.quiz?.steps; let stepIndex = index" [formGroupName]="stepIndex">
           <kepler-monorepo-quiz-step
             formArrayName="questions"
@@ -50,10 +51,10 @@ import { QuizSseService } from "../../services/quiz-sse.service";
             </kepler-monorepo-quiz-question>
           </kepler-monorepo-quiz-step>
         </ng-container>
+        </div>
       </div>
 
-      <div class="wizard-navigation">
-        <div>Current step: {{ (ctx.currentStep ?? 0) + 1 }}</div>
+      <div class="flex-item-0 wizard-navigation flex-row flex-gap-lg">
         <button
           type="button"
           class="previous-button"
@@ -61,6 +62,8 @@ import { QuizSseService } from "../../services/quiz-sse.service";
           [disabled]="!ctx.quiz?.steps?.length || ctx.currentStep === 0">
           Previous
         </button>
+        
+        <span class="step-counter">{{ (ctx.currentStep ?? 0) + 1 }}/{{ ctx.quiz?.steps?.length }}</span>
 
         <button
           type="button"
@@ -80,7 +83,7 @@ import { QuizSseService } from "../../services/quiz-sse.service";
       </div>
     </form>
 
-    <pre>{{ stateFacade.quizFormRecord.value | json }}</pre>
+<!--    <pre>{{ stateFacade.quizFormRecord.value | json }}</pre>-->
   `
 })
 export class QuizWizardComponent implements OnInit, AfterViewInit {

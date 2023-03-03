@@ -6,15 +6,16 @@ export const slideLeft = [
   group([
     query(":enter", [
       style({ transform: "translateX(-100%)", opacity: 0, zIndex: 2 }),
-      animate(`${duration} ease-out`, style({ transform: "translateX(0%)", opacity: 1 }))
+      animate(`${duration} ease`, style({ transform: "translateX(0%)", opacity: 1 }))
     ], { optional: true }),
     query(":leave", [
       style({
         position: "absolute",
-        transform: "translateX(0%)",
+        left: '50%',
+        transform: "translateX(-50%)",
         opacity: 1
       }),
-      animate(`${duration} ease-in`, style({ transform: "translateX(100%)", opacity: 0 }))
+      animate(`${duration} ease`, style({ transform: "translateX(50%)", opacity: 0 }))
     ], { optional: true })
   ])
 ];
@@ -23,15 +24,16 @@ export const slideRight = [
   group([
     query(":enter", [
       style({ transform: "translateX(100%)", opacity: 0, zIndex: 2 }),
-      animate(`${duration} ease-out`, style({ transform: "translateX(0%)", opacity: 1 }))
+      animate(`${duration} ease`, style({ transform: "translateX(0%)", opacity: 1 }))
     ], { optional: true }),
     query(":leave", [
       style({
         position: "absolute",
-        transform: "translateX(0%)",
+        left: '50%',
+        transform: "translateX(-50%)",
         opacity: 1
       }),
-      animate(`${duration} ease-in`, style({ transform: "translateX(-100%)", opacity: 0 }))
+      animate(`${duration} ease`, style({ transform: "translateX(-150%)", opacity: 0 }))
     ], { optional: true })
   ])
 ];
