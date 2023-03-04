@@ -1,0 +1,56 @@
+<form class="quiz-wizard flex-column" [formGroup]="stateFacade.quizFormRecord" *ngIf="{
+      currentStep: stateFacade.currentStep$ | async, 
+      quiz: stateFacade.quiz$ | async, 
+      loaded: stateFacade.loaded$ | async
+    } as ctx">
+  <div *ngIf="!ctx.loaded">Loading...</div>
+  <div formArrayName="steps" [@slideAnimation]="ctx.currentStep" class="flex-item-1 wizard-steps-container">
+    <div class="wizard-steps overflow-1">
+      <ng-container *ngFor="let step of ctx.quiz?.steps; let stepIndex = index" [formGroupName]="stepIndex">
+        <kepler-monorepo-quiz-step
+          formArrayName="questions"
+          *ngIf="ctx.currentStep === stepIndex"
+          class="wizard-step"
+          [class.is-valid]="isCurrentStepValid$ | async"
+          [step]="step">
+          <div class="centered">
+            <h3 style="text-align: center;">{{ step.title }}</h3>
+            <kepler-monorepo-quiz-question
+              *ngFor="let question of step.questions; let questionIndex = index"
+              [formControlName]="questionIndex"
+              [question]="question">
+            </kepler-monorepo-quiz-question>
+          </div>
+        </kepler-monorepo-quiz-step>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="flex-item-0 wizard-navigation flex-row flex-gap-lg">
+    <button
+      type="button"
+      class="previous-button"
+      (click)="goToPreviousStep()"
+      [disabled]="!ctx.quiz?.steps?.length || ctx.currentStep === 0">
+      Previous
+    </button>
+
+    <span class="step-counter">{{ (ctx.currentStep ?? 0) + 1 }}/{{ ctx.quiz?.steps?.length }}</span>
+
+    <button
+      type="button"
+      class="next-button"
+      (click)="goToNextStep()"
+      [disabled]="(!ctx.quiz?.steps?.length || ctx.currentStep === (ctx.quiz?.steps?.length ?? 0) - 1) || (isCurrentStepValid$ | async) !== true">
+      Next
+    </button>
+
+    <button
+      type="submit"
+      class="submit-button"
+      [disabled]="(ctx.currentStep !== (ctx.quiz?.steps?.length ?? 0) - 1) || (isCurrentStepValid$ | async) !== true"
+      (click)="onSubmit()">
+      Submit
+    </button>
+  </div>
+</form>
