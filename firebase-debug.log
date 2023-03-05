@@ -1,0 +1,33 @@
+[debug] [2023-03-05T12:12:45.627Z] ----------------------------------------------------------------------
+[debug] [2023-03-05T12:12:45.630Z] Command:       /Users/bullwinkle-nimbus/.nvm/versions/node/v19.7.0/bin/node /Users/bullwinkle-nimbus/.nvm/versions/node/v19.7.0/bin/firebase serve --only functions
+[debug] [2023-03-05T12:12:45.630Z] CLI Version:   11.24.0
+[debug] [2023-03-05T12:12:45.631Z] Platform:      darwin
+[debug] [2023-03-05T12:12:45.631Z] Node Version:  v19.7.0
+[debug] [2023-03-05T12:12:45.631Z] Time:          Sun Mar 05 2023 14:12:45 GMT+0200 (Israel Standard Time)
+[debug] [2023-03-05T12:12:45.631Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-03-05T12:12:45.779Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-03-05T12:12:45.780Z] > authorizing via signed-in user (developer085@gmail.com)
+[debug] [2023-03-05T12:12:45.780Z] [iam] checking project kepler-be for permissions ["firebase.projects.get"]
+[debug] [2023-03-05T12:12:45.782Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/kepler-be:testIamPermissions [none]
+[debug] [2023-03-05T12:12:45.782Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/kepler-be:testIamPermissions x-goog-quota-user=projects/kepler-be
+[debug] [2023-03-05T12:12:45.782Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/kepler-be:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-03-05T12:12:46.951Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/kepler-be:testIamPermissions 200
+[debug] [2023-03-05T12:12:46.952Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/kepler-be:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-03-05T12:12:46.953Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/kepler-be [none]
+[debug] [2023-03-05T12:12:47.835Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/kepler-be 200
+[debug] [2023-03-05T12:12:47.835Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/kepler-be {"projectId":"kepler-be","projectNumber":"517494402782","displayName":"kepler-be","name":"projects/kepler-be","resources":{"hostingSite":"kepler-be"},"state":"ACTIVE","etag":"1_ee513d8c-e340-4e19-b69e-450b5a726a0a"}
+[debug] [2023-03-05T12:12:47.842Z] defaultcredentials: writing to file /Users/bullwinkle-nimbus/.config/firebase/developer085_gmail_com_application_default_credentials.json
+[debug] [2023-03-05T12:12:47.844Z] Setting GAC to /Users/bullwinkle-nimbus/.config/firebase/developer085_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /Users/bullwinkle-nimbus/.config/firebase/developer085_gmail_com_application_default_credentials.json"}}
+[debug] [2023-03-05T12:12:47.845Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/kepler-be/adminSdkConfig [none]
+[debug] [2023-03-05T12:12:48.157Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/kepler-be/adminSdkConfig 200
+[debug] [2023-03-05T12:12:48.157Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/kepler-be/adminSdkConfig {"projectId":"kepler-be","storageBucket":"kepler-be.appspot.com"}
+[info] i  functions: Watching "/Users/bullwinkle-nimbus/Projects/kepler/kepler-monorepo" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/Users/bullwinkle-nimbus/Projects/kepler/kepler-monorepo\" for Cloud Functions..."}}
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: package.json in functions directory has an engines field which is unsupported. Valid choices are: {"node": 10|12|14|16}
+
+Deploys to runtimes below Node.js 10 are now disabled in the Firebase CLI. Existing Node.js 8 functions will stop executing at a future date. Update existing functions to Node.js 10 or greater as soon as possible. {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: \u001b[1mpackage.json in functions directory has an engines field which is unsupported. Valid choices are: \u001b[1m{\"node\": 10|12|14|16}\u001b[22m\u001b[1m\u001b[22m\n\nDeploys to runtimes below Node.js 10 are now disabled in the Firebase CLI. \u001b[1mExisting Node.js 8 functions \u001b[4mwill stop executing at a future date\u001b[24m\u001b[22m. Update existing functions to Node.js 10 or greater as soon as possible."}}
+[debug] [2023-03-05T12:13:16.342Z] File /Users/bullwinkle-nimbus/Projects/kepler/kepler-monorepo/package.json changed, reloading triggers {"metadata":{"emulator":{"name":"functions"},"message":"File /Users/bullwinkle-nimbus/Projects/kepler/kepler-monorepo/package.json changed, reloading triggers"}}
+[error] ⬢  functions: Failed to load function definition from source: FirebaseError: package.json in functions directory has an engines field which is unsupported. Valid choices are: {"node": 10|12|14|16}
+
+Deploys to runtimes below Node.js 10 are now disabled in the Firebase CLI. Existing Node.js 8 functions will stop executing at a future date. Update existing functions to Node.js 10 or greater as soon as possible. {"metadata":{"emulator":{"name":"functions"},"message":"Failed to load function definition from source: FirebaseError: \u001b[1mpackage.json in functions directory has an engines field which is unsupported. Valid choices are: \u001b[1m{\"node\": 10|12|14|16}\u001b[22m\u001b[1m\u001b[22m\n\nDeploys to runtimes below Node.js 10 are now disabled in the Firebase CLI. \u001b[1mExisting Node.js 8 functions \u001b[4mwill stop executing at a future date\u001b[24m\u001b[22m. Update existing functions to Node.js 10 or greater as soon as possible."}}
+[info] Shutting down...
