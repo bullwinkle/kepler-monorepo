@@ -98,7 +98,7 @@ export class QuizWizardComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     combineLatest([
       this.questionComponents.changes.pipe(startWith(this.questionComponents)),
-      this.stateFacade.quizFormRecord.valueChanges.pipe(startWith(this.questionComponents, this.stateFacade.quizFormRecord.value))
+      this.stateFacade.quizFormRecord.valueChanges.pipe(startWith(this.stateFacade.quizFormRecord.value))
     ]).pipe(
       map(([it]) => it.toArray().every((it2: any) => it2.questionFormRecord.valid)),
       delay(0, animationFrameScheduler)
